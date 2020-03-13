@@ -1,8 +1,8 @@
-## HPGM
+## Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only
 
 Pytorch implementation for “Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only”
 
-In this paper, we formulate it as a language conditioned visual content generation problem that is further divided into a floor plan generation and an interior texture (such as floor and wall) synthesis task. The only control signal of the generation process is the linguistic expression given by users that describe the house details.
+In this paper, we formulate home design as a language conditioned visual content generation problem that is further divided into a floor plan generation and an interior texture (such as floor and wall) synthesis task. The only control signal of the generation process is the linguistic expression given by users that describe the house details. To this end, we propose a House Plan Generative Model (HPGM).
 
 <p align="center">
 <img src="./images/sample.png" alt="example" width="40%">
