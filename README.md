@@ -55,7 +55,7 @@ pythono xxx.py
 We provide some generated layouts by using GC-LPN and the baseline methods.
 
 <p align="center">
-<img src="./images/sample_GC_LPN.png" alt="GC-LPN" width="50%">
+<img src="./images/sample_GC_LPN.png" alt="GC-LPN" width="40%"><img src="./images/sample_LCT_GAN.png" alt="LCT-GAN" width="40%">
 </p>
 <p align="center">
 Figure: The layouts produced by GC-LPN and baselines.
