@@ -43,6 +43,13 @@ In our experiments, we use 1,600 pairs for training while 400 for testing in the
 
 - Download [Text--to--3D House Model](https://github.com) dataset.
 
+<p align="center">
+<img src="./images/sample_dataset.png" alt="dataset" height="190"><img src="./images/word_cloud.png" alt="word cloud" height="190">
+</p>
+<p align="center">
+Figure: An example from Text--to--3D House Model dataset (left) and the word cloud of the texts in our dataset (right).
+</p>
+
 
 ## Training
 - Train GC-LPN
