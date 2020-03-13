@@ -56,7 +56,7 @@ We provide some generated layouts by using GC-LPN and the baseline methods.
 We provide some generated layouts by using LCT-GAN and the baseline methods.
 
 <p align="center">
-<img src="./images/sample_GC_LPN.png" alt="GC-LPN" width="450"><img src="./images/sample_LCT_GAN.png" alt="LCT-GAN" width="450">
+<img src="./images/sample_GC_LPN.png" alt="GC-LPN" height="200"><img src="./images/sample_LCT_GAN.png" alt="LCT-GAN" height="200">
 </p>
 <p align="center">
 Figure: The layouts produced by GC-LPN and baselines.
