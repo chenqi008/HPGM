@@ -1,4 +1,4 @@
-## Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only
+### Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only
 
 Pytorch implementation for “Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only”
 
@@ -12,7 +12,7 @@ Figure: An example of generated 3D house with description using HPGM on the Text
 </p>
 
 
-## Framework
+### Framework
 
 The proposed HPGM consists of five components: 
 1. text representation block
@@ -30,13 +30,13 @@ Figure: The overview framework of HPGM.
 </p>
 
 
-## Dependencies
+### Dependencies
 
 Python 2.7
 
 Pytorch
 
-## Dataset
+### Dataset
 
 In our paper, to train and evaluate our model, we build the first Text--to--3D House Model dataset.
 The dataset contains 2,000 houses, 13,478 rooms and 873 (some rooms have same textures so this number is smaller than the total number of rooms.) texture images with corresponding natural language descriptions. These descriptions are firstly generated from some pre-defined templates and then refined by human workers. The average length of the description is 173.73 and there are 193 unique words.
@@ -52,7 +52,7 @@ Figure: An example from Text--to--3D House Model dataset (left) and the word clo
 </p>
 
 
-## Training
+### Training
 - Train GC-LPN
 ```
 python xxx.py
@@ -64,7 +64,7 @@ python xxx.py
 ```
 
 
-## Evaluation Metrics
+### Evaluation Metrics
 
 - Calculate the IoU
 ```
@@ -82,7 +82,7 @@ pythono xxx.py
 ```
 
 
-## Generated examples
+### Generated examples
 
 We provide some visualised layouts and textures results compared with baseline methods.
 
@@ -95,7 +95,7 @@ Figure: The examples of layouts produced by GC-LPN (left) and textures generated
 
 
 
-## Citation
+### Citation
 
 If you use any part of this code in your research, please cite our paper:
 
