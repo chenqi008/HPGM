@@ -18,7 +18,7 @@ The proposed HPGM consists of five components:
 2. graph conditioned layout prediction network (GC-LPN)
 3. floor plan post-processing
 4. language conditioned texture GAN (LCT-GAN)
-5. 3D scene generation and rendering.
+5. 3D scene generation and rendering
 
 
 <p align="center">
