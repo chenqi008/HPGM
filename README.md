@@ -13,7 +13,12 @@ Figure: An example of generated 3D house with description using HPGM on the Text
 
 ## Framework
 
-The proposed HPGM consists of five components: 1) text representation block, 2) graph conditioned layout prediction network (GC-LPN), 3) floor plan post-processing, 4) language conditioned texture GAN (LCT-GAN), and  5) 3D scene generation and rendering.
+The proposed HPGM consists of five components: 
+1. text representation block
+2. graph conditioned layout prediction network (GC-LPN)
+3. floor plan post-processing
+4. language conditioned texture GAN (LCT-GAN)
+5. 3D scene generation and rendering.
 
 
 <p align="center">
