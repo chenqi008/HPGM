@@ -111,6 +111,5 @@ If you use any part of this code in your research, please cite our paper:
   booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
   year={2020}
 }
-
 ```
 
