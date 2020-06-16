@@ -44,7 +44,7 @@ In our experiments, we use 1,600 pairs for training while 400 for testing in the
 
 - Download Text--to--3D House Model dataset:
 
-[Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ); password: n7ty
+1. [Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ) Password: n7ty
 
 
 <p align="center">
