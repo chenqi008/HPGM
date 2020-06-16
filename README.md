@@ -43,7 +43,8 @@ The dataset contains 2,000 houses, 13,478 rooms and 873 (some rooms have same te
 In our experiments, we use 1,600 pairs for training while 400 for testing in the building layout generation. For texture synthesis, we use 503 data for training and 370 data for testing.
 
 - Download Text--to--3D House Model dataset:
-[Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ)  Password: n7ty
+
+[Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ); password: n7ty
 
 
 <p align="center">
