@@ -42,8 +42,8 @@ In our paper, to train and evaluate our model, we build the first Text--to--3D H
 The dataset contains 2,000 houses, 13,478 rooms and 873 (some rooms have same textures so this number is smaller than the total number of rooms.) texture images with corresponding natural language descriptions. These descriptions are firstly generated from some pre-defined templates and then refined by human workers. The average length of the description is 173.73 and there are 193 unique words.
 In our experiments, we use 1,600 pairs for training while 400 for testing in the building layout generation. For texture synthesis, we use 503 data for training and 370 data for testing.
 
-### Download Text--to--3D House Model dataset:
-- [Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ) Password: n7ty
+- Download Text--to--3D House Model dataset:
+[Text--to--3D House Model (Baidu Yun)](https://pan.baidu.com/s/1C88zjcYIAKRiqVD5Qlj7yQ)  Password: n7ty
 
 
 <p align="center">
