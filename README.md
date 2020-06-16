@@ -49,6 +49,7 @@ In our experiments, we use 1,600 pairs for training while 400 for testing in the
 2. [Text--to--3D House Model (Google Drive)](https://drive.google.com/drive/folders/1SrmnPq47QZSN1mlllMli2rfXtxyMeA0m?usp=sharing)
 
 
+
 <p align="center">
 <img src="./images/sample_dataset.png" alt="dataset" height="230"><img src="./images/word_cloud.png" alt="word cloud" height="230">
 </p>
