@@ -1,0 +1,45 @@
+CONFIG_NAME: '3stages'
+
+DATASET_NAME: 'layout'
+DATA_DIR: '/home/zhoujiaqiu/data/layout_new'
+GPU_ID: '0'
+WORKERS: 0
+
+
+TREE:
+    BRANCH_NUM: 3
+
+
+TRAIN:
+    FLAG: False # True
+    GRAPH_PRE_NET: ''
+    GCN: ''
+    BOX_NET: ''
+    BATCH_SIZE: 256
+    MAX_EPOCH: 500
+    SNAPSHOT_INTERVAL: 1
+    CHECK_POINT_INTERVAL: 10
+    USE_SIZE_AS_INPUT: True
+    COEFF:
+      BBOX_LOSS: 300.0 #100
+
+EVAL:
+    OUTPUT_DIR: '../output_bbox_gcn/layout_3stages_2020_03_15_22_46_56'
+    GRAPH_PRE_NET: 'graph_prediction_net_best.pth'
+    GCN: 'gcn_best.pth'
+    BOX_NET: 'box_net_best.pth'
+
+FLOOR_PLAN:
+    WIN_DOOR: True
+
+GRAPH:
+    LR : 0.002
+    WEIGHT_DECAY : 0.0005
+
+GCN:
+    LR : 0.002
+    WEIGHT_DECAY : 0.0005
+
+BBOX:
+    LR : 0.002
+    WEIGHT_DECAY : 0.0005

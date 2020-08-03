@@ -1,0 +1,36 @@
+CONFIG_NAME: '3stages'
+
+DATASET_NAME: 'layout'
+DATA_DIR: '/home/chenqi/dataset/layout_new'
+GPU_ID: '0'
+WORKERS: 0
+
+TREE:
+    BRANCH_NUM: 3
+
+TRAIN:
+    FLAG: True # True
+    GRAPH_PRE_NET: ''
+    GCN: ''
+    BOX_NET: ''
+    BATCH_SIZE: 256
+    MAX_EPOCH: 500
+    SNAPSHOT_INTERVAL: 1
+    CHECK_POINT_INTERVAL: 10
+    USE_SIZE_AS_INPUT: True
+    COEFF:
+      BBOX_LOSS: 200.0 #100
+
+EVAL:
+    OUTPUT_DIR: '../output_bbox_gcn/layout_3stages_2020_03_07_11_53_57'
+    GRAPH_PRE_NET: 'graph_prediction_net_best.pth'
+    GCN: 'gcn_best.pth'
+    BOX_NET: 'box_net_best.pth'
+
+GCN:
+    LR : 0.002
+    WEIGHT_DECAY : 0.0005
+
+BBOX:
+    LR : 0.002
+    WEIGHT_DECAY : 0.0005
