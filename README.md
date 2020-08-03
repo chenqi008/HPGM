@@ -61,30 +61,23 @@ Figure: An example from Text--to--3D House Model dataset (left) and the word clo
 ## Training
 - Train GC-LPN
 ```
-python xxx.py
+python main.py --cfg cfg/layout.yml --gpu '0'
 ```
 
 - Train LCT-GAN
 ```
-python xxx.py
+CUDA_VISIBLE_DEVICES=3 python main.py
+--texturePath=/home/chenqi/dataset/materials/
+--ngf=80 --ndf=80 --zLoc=100 --zGL=31 --nDep=5
+--nDepD=5 --batchSize=24 --niter=10000
+--coeff_color_loss=0 --imageSize 160
+--use_perceptual_loss=1
 ```
 
-
-## Evaluation Metrics
-
-- Calculate the IoU
+## Testing
+- Test GC-LPN
 ```
-python xxx.py
-```
-
-- Calculate the Fréchet Inception Distance (FID)
-```
-python xxx.fid
-```
-
-- Calculate the MS-SSIM
-```
-pythono xxx.py
+python main.py --cfg cfg/layout_test.yml --gpu '0'
 ```
 
 
