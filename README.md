@@ -100,9 +100,10 @@ If you use any part of this code in your research, please cite our paper:
 
 ```
 @inproceedings{chen2020intelligent,
-  title={Intelligent Home 3D: Automatic 3D-House Design from Linguistic Descriptions Only},
+  title={Intelligent home 3d: Automatic 3d-house design from linguistic descriptions only},
   author={Chen, Qi and Wu, Qi and Tang, Rui and Wang, Yuhan and Wang, Shuai and Tan, Mingkui},
-  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={12625--12634},
   year={2020}
 }
 
