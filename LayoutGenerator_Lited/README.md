@@ -11,7 +11,7 @@ Python==3.7.0, PyTorch==1.4.0, easydict, numpy==1.16.1, shapely, open3d
    * [MultiLayerDataset(Baidu Yun)](https://pan.baidu.com/s/1aA5gs-sDABsbL667F_cCbA) Password:t9x9
    * [MultiLayerDataset(Google Drive)]()
 
-2. Change your own dataset path in the config file(e.g. layout_generator_test.yml)
+2. Change your own dataset path in the config file (e.g. layout_generator_test.yml)
 
 3. Train the Evaluator Model
 
@@ -39,7 +39,7 @@ Figure: Qualitative Results of Multi-story Building Layout.
 </p>
 
 
-## Generate your own Dataset(Optional)
+## Generate your own Dataset (Optional)
 
 1. Generate random room layers from the profile of the ground layer (train data for the Generator)
 
