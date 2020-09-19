@@ -28,7 +28,7 @@ Python==3.7.0, PyTorch==1.4.0, easydict, numpy==1.16.1, shapely, open3d
 ## Run example
 
 ```c
-python main.py --cfg cfg/layout_genrator_test.yml --gpu 0
+python main.py --cfg cfg/layout_generator_test.yml --gpu 0
 ```
 
 <p align="center">
