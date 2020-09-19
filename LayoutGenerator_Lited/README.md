@@ -32,7 +32,7 @@ python main.py --cfg cfg/layout_genrator_test.yml --gpu 0
 ```
 
 <p align="center">
-<img src="./LayoutGenerator_Lited/images/3DVisual.png" alt="Generator_visualiztaion" height="250"
+<img src="./images/3DVisual.png" alt="Generator_visualiztaion" height="250"
 </p>
 <p align="center">
 Figure: Qualitative Results of Multi-story Building Layout.

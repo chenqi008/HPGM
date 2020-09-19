@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # mine
-*.png
 *.jpg
 *.txt
 *.npy
