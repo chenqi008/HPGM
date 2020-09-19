@@ -1,0 +1,29 @@
+DATASET_NAME: 'layout'
+CONFIG_NAME: 'MultiLayer'
+DATA_DIR: '/home/zhoujiaqiu/Code/GAN/MultiLayerDataset'
+GPU: '0'
+DATASET: 'eval'
+
+TRAIN:
+    FLAG: True # True
+    BATCH_SIZE: 1 # since data is different size so can't be concat
+    MAX_EPOCH: 1600
+    ROOM_HIDDERN_DIM: 8
+    SCORE_HIDDERN_DIM: 32
+    ROOM_GEN_HIDDERN_DIM: 64
+    BIDIRECTIONAL: False
+    EVALUATOR: ''
+    SAMPLE_NUM: 20
+    BATCH: False
+    MARGIN: 1.0
+    GENERATOR: False
+    CONSTRAINT_RULES: [1, 2, 3, 4, 5]
+
+EVALUATOR:
+    LR: 0.0001
+    WEIGHT_DECAY: 0.0005
+
+EVAL:
+    MODEL_EVALUATOR: ''
+    MODEL_GENERATOR: ''
+    OUTPUT_DIR: ''
