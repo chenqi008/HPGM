@@ -8,8 +8,8 @@ Python==3.7.0, PyTorch==1.4.0, easydict, numpy==1.16.1, shapely, open3d
 
 1. Download the dataset:
 
-   * [MultiLayerDataset(Baidu Yun)](https://pan.baidu.com/s/1aA5gs-sDABsbL667F_cCbA) Password:t9x9
-   * [MultiLayerDataset(Google Drive)]()
+   * [MultiLayerDataset (Baidu Yun)](https://pan.baidu.com/s/1aA5gs-sDABsbL667F_cCbA) Password:t9x9
+   * [MultiLayerDataset (Google Drive)]()
 
 2. Change your own dataset path in the config file (e.g. layout_generator_test.yml)
 
