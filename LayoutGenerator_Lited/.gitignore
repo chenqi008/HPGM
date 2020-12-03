@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.vscode
 # mine
 *.jpg
 *.txt
@@ -131,3 +131,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+

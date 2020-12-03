@@ -1,7 +1,7 @@
 DATASET_NAME: 'layout'
 CONFIG_NAME: 'MultiLayer'
-DATA_DIR: '/home/zhoujiaqiu/Code/GAN/MultiLayerDataset/GeneratorTestData'
-GT_DATA_DIR: '/home/zhoujiaqiu/Code/GAN/MultiLayerDataset/GroundLayer'
+DATA_DIR: '/home/datasets/MultiLayerDataset/GeneratorTestData'
+GT_DATA_DIR: '/home/datasets/MultiLayerDataset/GroundLayer'
 DATASET: 'gen'
 GPU: '0'
 
@@ -13,7 +13,7 @@ TRAIN:
     SCORE_HIDDERN_DIM: 32
     ROOM_GEN_HIDDERN_DIM: 16
     BIDIRECTIONAL: False
-    EVALUATOR: '/home/zhoujiaqiu/Code/GAN/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_MultiLayer_2020_09_13_12_12_20/Model/evaluator_best.pth'
+    EVALUATOR: '/home/zhoujiaqiu/project/HPGM/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_Model/Model/evaluator_best.pth'
     SAMPLE_NUM: 200
     BATCH: False
     MARGIN: 1.0
@@ -25,6 +25,7 @@ EVALUATOR:
 
 EVAL:
     TEST_INDEX: 2
-    MODEL_EVALUATOR: '/home/zhoujiaqiu/Code/GAN/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_MultiLayer_2020_09_13_12_12_20/Model/evaluator_best.pth'
-    MODEL_GENERATOR: '/home/zhoujiaqiu/Code/GAN/LayoutGenerator_Lited/output_dir/GENERATOR_layout_MultiLayer_2020_09_14_09_29_41/Model/generator_best.pth'
-    OUTPUT_DIR: '/home/zhoujiaqiu/Code/GAN/LayoutGenerator_Lited/output_dir/GENERATOR_layout_MultiLayer_2020_09_14_09_29_41'
+    MODEL_EVALUATOR: '/home/zhoujiaqiu/project/HPGM/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_Model/Model/evaluator_best.pth'
+    MODEL_GENERATOR: '/home/zhoujiaqiu/project/HPGM/LayoutGenerator_Lited/output_dir/GENERATOR_layout_Model/Model/generator_best.pth'
+    OUTPUT_DIR: '/home/zhoujiaqiu/project/HPGM/LayoutGenerator_Lited/output_dir/GENERATOR_layout_Model'
+    EVAL_METRIC: 0

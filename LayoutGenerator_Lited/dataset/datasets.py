@@ -30,27 +30,32 @@ class LayoutDataset(data.Dataset):
         self.pair_room_datas, self.pair_init_contours, self.indicator_hull, \
         self.pair_indicator_values, self.contour_types, self.indicator_values_data = [], [], [], [], [], []
         # gen
-        self.room_datas, self.init_contours, self.gt_hull_datas = [], [], []
+        self.room_datas, self.init_contours, self.gt_hull_datas, self.gt_point_datas = [], [], [], []
         self.constraint_rules = cfg.TRAIN.CONSTRAINT_RULES
         self.indicator = IndicatorConstraint()
         self.direction_dict = {0:[0, 0], 1:[0, 1], 2:[1, 0], 3:[1, 1]}
         if cfg.DATASET == 'gen':
             for i in range(len(self.id)):
                 # for test: 200_pair_test_data
-                # for train: pair_hull_data_gt pair_train_data_gt(50 layouts)
+                # for train: pair_train_data_gt pair_hull_data_gt
                 if cfg.TRAIN.FLAG:
                     layers_data_path = os.path.join(self.data_dir, "pair_train_data_gt/layers_pair_points_%d.npy" % int(self.id[i]))
                     contour_data_path = os.path.join(self.data_dir, "pair_hull_data_gt/layers_hull_points_%d.npy" % int(self.id[i]))
                 else:
                     layers_data_path = os.path.join(self.data_dir, "200_pair_test_data/layers_pair_points_%d.npy" % int(self.id[i]))
                     contour_data_path = os.path.join(self.data_dir, "200_pair_test_data/layers_hull_points_%d.npy" % int(self.id[i]))
-                gt_data_path = os.path.join(self.gt_data_dir, "layout_gt_points/layers_gt_hulls_%d.npy" % int(self.id[i]))
+                gt_point_data_path = os.path.join(self.gt_data_dir, "layout_gt_points/layers_gt_points_%d.npy" % int(self.id[i]))
+                gt_hull_data_path = os.path.join(self.gt_data_dir, "layout_gt_points/layers_gt_hulls_%d.npy" % int(self.id[i]))
                 self.layers_data = np.load(layers_data_path)
                 self.contour = np.load(contour_data_path)
-                self.gt_hulls = np.load(gt_data_path)
+                self.gt_hulls = np.load(gt_hull_data_path)
+                gt_points = np.load(gt_point_data_path)
                 room_data, init_contour = self.data_process()
-                self.gt_hull_datas.append(self.gt_hulls)
+                gt_points = self.data_process_gt(gt_points)
+                gt_points = gt_points.repeat(room_data.size(0), 1, 1)
+                self.gt_point_datas.append(gt_points)
                 self.room_datas.append(room_data)
+                self.gt_hull_datas.append(self.gt_hulls)
                 self.init_contours.append(init_contour)
             print("room data shape:", len(room_data))
         elif cfg.DATASET == 'eval':
@@ -129,9 +134,25 @@ class LayoutDataset(data.Dataset):
         # make indicator_values
         indicator_values = torch.from_numpy(np.array(self.indicator_values))
         return rooms_data1_tensors, rooms_data2_tensors, init_contours_tensors, pair_hull_tensors, data_types, indicator_values
+        
+    def data_process_gt(self, gt_points):
+        gt_data_tensor = None
+        for n in range(len(gt_points)):
+            point, direction = gt_points[n]
+            point = point.astype(np.float64)/256
+            # direction: 0:left up 1: right up 2: left bottom 3: right bottom
+            # direction = float(direction)/4
+            direction = self.direction_dict[direction]
+            room_feature = torch.from_numpy(np.hstack((point, direction))).type(torch.float32)
+            room_feature = torch.unsqueeze(room_feature, 0)
+            if n == 0:
+                gt_data_tensor= room_feature
+            else:
+                gt_data_tensor = torch.cat((gt_data_tensor, room_feature), dim=0)
+        return gt_data_tensor
 
     def data_process(self):
-        rooms_data_tensors,init_contours_tensors, rooms_contour, data_types = None, None, [], []
+        rooms_data_tensors,init_contours_tensors, rooms_contour = None, None, []
         for i in range(len(self.layers_data)):
             if i == cfg.TRAIN.SAMPLE_NUM:
                 break
@@ -164,52 +185,24 @@ class LayoutDataset(data.Dataset):
             else:
                 rooms_data_tensors = torch.cat((rooms_data_tensors, train_room_data_tensors), dim=0)
                 init_contours_tensors = torch.cat((init_contours_tensors, train_init_contours), dim=0)
-        if cfg.DATASET == 'gen':
-            return rooms_data_tensors, init_contours_tensors
-        # get the pair data
-        pair_room_data_tensors, pair_init_contours, pair_hulls_data_tensors, num = None, None, [], 0
-        indicator_values = torch.zeros((len(rooms_data_tensors)*len(rooms_data_tensors), 1))
-        for p in range(len(rooms_data_tensors)):
-            for pn in range(len(rooms_data_tensors)):
-                pair_room_data_tensor = torch.unsqueeze(torch.cat((torch.unsqueeze(rooms_data_tensors[p], 0),
-                                                                   torch.unsqueeze(rooms_data_tensors[pn], 0)), 0), 0)
-                pair_init_contour = torch.unsqueeze(torch.cat((torch.unsqueeze(init_contours_tensors[p], 0),
-                                                               torch.unsqueeze(init_contours_tensors[pn], 0)), 0), 0)
-                pair_hulls_data_tensors.append([rooms_contour[p], rooms_contour[pn]])
-                # if not cfg.TRAIN.FLAG:
-                indicator_value = self.indicator.calculate_score(init_contours_tensors[p],
-                                                                 rooms_contour[p], rooms_contour[pn], self.constraint_rules)
-                indicator_values[num] = indicator_value
-                num = num + 1
-                if p == 0 and pn == 0:
-                    pair_room_data_tensors = pair_room_data_tensor
-                    pair_init_contours = pair_init_contour
-                else:
-                    pair_room_data_tensors = torch.cat((pair_room_data_tensors, pair_room_data_tensor), 0)
-                    pair_init_contours = torch.cat((pair_init_contours, pair_init_contour), 0)
-        # process type for visualization
-        data_types.append(self.contour_type[0])
-        for i in range(len(self.contour_type)-1):
-            if self.contour_type[i] == self.contour_type[i+1]:
-                continue
-            else:
-                data_types.append(self.contour_type[i+1])
-        return pair_room_data_tensors, pair_init_contours, pair_hulls_data_tensors, indicator_values, data_types
+        return rooms_data_tensors, init_contours_tensors
+    
 
     def prepare_data(self, index):
         if cfg.DATASET == 'gen':
             room_data = self.room_datas[index]
             init_contour = self.init_contours[index]
+            first_room_data = self.gt_point_datas[index]
             gt_room_data = self.gt_hull_datas[index]
-            return room_data, init_contour, gt_room_data
+            return room_data, init_contour, first_room_data, gt_room_data
         elif cfg.DATASET == 'eval':
             pair_data = self.pair_room_datas[index]
             init_contour = self.pair_init_contours[index]
             indicator_hull = self.indicator_hull[index]
             contour_type = self.contour_types[index]
             indicator_values = self.indicator_values_data[index]
-            return pair_data, init_contour, \
-                   indicator_hull, contour_type, indicator_values
+        return pair_data, init_contour, \
+               indicator_hull, contour_type, indicator_values
 
     def __getitem__(self, item):
         return self.iterator(item)
@@ -236,12 +229,14 @@ class LayoutDataset(data.Dataset):
         elif cfg.DATASET == 'gen':
             room_data = list()
             init_contour =list()
+            first_room_data = list()
             gt_room_data = list()
             for b in batch:
                 room_data.append(b[0])
                 init_contour.append(b[1])
-                gt_room_data.append(b[2])
-            return room_data, init_contour, gt_room_data
+                first_room_data.append(b[2])
+                gt_room_data.append(b[3])
+            return room_data, init_contour, first_room_data, gt_room_data
 
 if __name__ == '__main__':
     # /******** test the data ********/

@@ -641,9 +641,9 @@ if __name__ == '__main__':
         return coord, types
     # id_path = os.path.join("/home/zhoujiaqiu/Code/GAN/Layout_bbox_gcn/multiLayerLayout/multiLayer_data", "test_id.txt")
     # id = np.loadtxt(id_path)
-    # start_time = time.time()
-    absolute_path = "/home/zhoujiaqiu/Code/GAN/MultiLayerDataset"
-    pair_nums = 200
+    start_time = time.time()
+    absolute_path = "/home/datasets/MultiLayerDataset"
+    pair_nums = 50
     for index in range(1, 401):  # 1, 401
         # if index not in id:
         #     continue
@@ -654,11 +654,9 @@ if __name__ == '__main__':
         layer_pair_hulls = []
         for p in range(pair_nums):
             # print("now process the {} contour".format(p))
-            point_data_hulls, point_types, bounding_boxes, pair_hull_points = get_room_contour(boxes_data_coords, boxes_data_types,
-                                                                                     p)
+            point_data_hulls, point_types, bounding_boxes, pair_hull_points = get_room_contour(boxes_data_coords, boxes_data_types, p)
             layer_pair_points.append(pair_hull_points)
             layer_pair_hulls.append(point_data_hulls)
-
         # /************* visualize in 2d to check right or not*********/
         # save_gt_path = "./result/layout{}_gt.png".format(index)
         # visualize(boxes_data_coords, boxes_data_types, save_gt_path)
@@ -676,12 +674,12 @@ if __name__ == '__main__':
         # np.save(save_boxes_bounding_path, np.asarray(point_bounding_boxes))
 
         # /******* save train data *******/
-        # save_train_data_path = os.path.join(absolute_path, "GeneratorTestData/200_pair_test_data/layers_pair_points_{}.npy".format(index))
-        # save_hull_data_path = os.path.join(absolute_path, "GeneratorTestData/200_pair_test_data/layers_hull_points_{}.npy".format(index)
-        # layer_pair_points = np.array(layer_pair_points)
-        # layer_pair_hulls = np.array(layer_pair_hulls)
-        # np.save(save_train_data_path, layer_pair_points)
-        # np.save(save_hull_data_path, layer_pair_hulls)
+        save_train_data_path = os.path.join(absolute_path, "GeneratorTrainData/pair_train_data_gt/layers_pair_points_{}.npy".format(index))
+        save_hull_data_path = os.path.join(absolute_path, "GeneratorTrainData/pair_hull_data_gt/layers_hull_points_{}.npy".format(index))
+        layer_pair_points = np.array(layer_pair_points)
+        layer_pair_hulls = np.array(layer_pair_hulls)
+        np.save(save_train_data_path, layer_pair_points)
+        np.save(save_hull_data_path, layer_pair_hulls)
         print("save {} layout is OK!".format(index))
         print("pair_num: ", len(layer_pair_hulls))
     end_time = time.time()

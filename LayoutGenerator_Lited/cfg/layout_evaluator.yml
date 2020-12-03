@@ -1,6 +1,6 @@
 DATASET_NAME: 'layout'
 CONFIG_NAME: 'MultiLayer'
-DATA_DIR: '/home/zhoujiaqiu/Code/GAN/MultiLayerDataset'
+DATA_DIR: '/home/datasets/MultiLayerDataset'
 GPU: '0'
 DATASET: 'eval'
 

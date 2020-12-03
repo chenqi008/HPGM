@@ -189,11 +189,10 @@ class LayoutTrainer(object):
         for epoch in range(start_epoch, self.max_epoch):
             layout_evaluator.train()
             start_t = time.time()
-            total_err = 0.0
             sample_num = cfg.TRAIN.SAMPLE_NUM
             scale = sample_num * (sample_num - 1) // 2
             train_label = torch.FloatTensor([[-1.0]]).cuda()
-            restart = 1
+            restart, err_preds, total_err  = 1, 0.0, 0.0
             for step, data in enumerate(self.dataloader_train, 0):
                 pair_data, init_contour, _, _, indicator_values = data
                 # data: [1, 2500, 2, 4, 3] init_contour: [2500, 2, n, 3]
@@ -225,45 +224,44 @@ class LayoutTrainer(object):
                     layout_optimizer.step()
                     restart = 1
             print('comparing total loss...')
-            if total_err < self.best_loss:
-                self.best_loss = total_err
-                self.best_epoch = epoch
-                print('saving best models...')
-                save_model(model=layout_evaluator, epoch=epoch, model_dir=self.model_dir,
-                           model_name='evaluator', best=True)
-            print('\033[1;31m current_epoch[{}] current_loss[{}] \033[0m \033[1;34m best_epoch[{}] best_loss[{}] \033[0m'.format(
-                    epoch, total_err, self.best_epoch, self.best_loss))
+            print('\033[1;31m current_epoch[{}] current_loss[{}] \033[0m \033[1;34m best_epoch[{}] best_loss[{}] \033[0m'.format(epoch, total_err, self.best_epoch, self.best_loss))
             if epoch % 10 == 0:
                 save_model(model=layout_evaluator, epoch=epoch, model_dir=self.model_dir,
                            model_name='evaluator', best=False)
             # ================ #
             #      testing     #
             # ================ #
-            layout_evaluator.eval()
-            test_label = torch.FloatTensor([[-1.0]]).cuda()
-            test_total_err = 0.0
-            test_restart = 1
-            for step, data in enumerate(self.dataloader_test, 0):
-                test_pair_data, test_init_contour, _, _, test_indicator_values = data
-                test_layout1_room, test_layout2_room = test_pair_data[0][0], test_pair_data[0][1]
-                test_layout1_init_contour, test_layout2_init_contour = test_init_contour[0], test_init_contour[0]
-                test_layout1 = torch.cat((test_layout1_init_contour, test_layout1_room), dim=1).transpose(0, 1).cuda()
-                test_layout2 = torch.cat((test_layout2_init_contour, test_layout2_room), dim=1).transpose(0, 1).cuda()
-                test_pred_score1 = layout_evaluator.forward(test_layout1)
-                test_pred_score2 = layout_evaluator.forward(test_layout2)
-                test_indicator_values = test_indicator_values[0].reshape([len(test_indicator_values[0]), 1]).float().cuda()
-                scale = test_indicator_values.shape[0]
-                test_pred = torch.sum((test_pred_score1 - test_pred_score2)* test_indicator_values)/ scale
-                test_err_pred = criterion(test_pred, test_label)
-                if step == 0 or test_restart:
-                    test_err_preds = test_err_pred
-                    test_restart = 0
-                else:
-                    test_err_preds = test_err_preds + test_err_pred
-                if (step+1) % 50 == 0 and step != 0:
-                    test_err_preds = test_err_preds / 50.0
-                    test_total_err = test_total_err + test_err_preds.item()
-                    test_restart = 1
+            with torch.no_grad():
+                layout_evaluator.eval()
+                test_label = torch.FloatTensor([[-1.0]]).cuda()
+                test_restart, test_err_preds, test_total_err = 1, 0.0, 0.0
+                for step, data in enumerate(self.dataloader_test, 0):
+                    test_pair_data, test_init_contour, _, _, test_indicator_values = data
+                    test_layout1_room, test_layout2_room = test_pair_data[0][0], test_pair_data[0][1]
+                    test_layout1_init_contour, test_layout2_init_contour = test_init_contour[0], test_init_contour[0]
+                    test_layout1 = torch.cat((test_layout1_init_contour, test_layout1_room), dim=1).transpose(0, 1).cuda()
+                    test_layout2 = torch.cat((test_layout2_init_contour, test_layout2_room), dim=1).transpose(0, 1).cuda()
+                    test_pred_score1 = layout_evaluator.forward(test_layout1)
+                    test_pred_score2 = layout_evaluator.forward(test_layout2)
+                    test_indicator_values = test_indicator_values[0].reshape([len(test_indicator_values[0]), 1]).float().cuda()
+                    scale = test_indicator_values.shape[0]
+                    test_pred = torch.sum((test_pred_score1 - test_pred_score2)* test_indicator_values)/ scale
+                    test_err_pred = criterion(test_pred, test_label)
+                    if step == 0 or test_restart:
+                        test_err_preds = test_err_pred
+                        test_restart = 0
+                    else:
+                        test_err_preds = test_err_preds + test_err_pred
+                    if (step+1) % 50 == 0 and step != 0:
+                        test_err_preds = test_err_preds / 50.0
+                        test_total_err = test_total_err + test_err_preds
+                        test_restart = 1
+                    if test_total_err < self.best_loss:
+                        self.best_loss = test_total_err
+                        self.best_epoch = epoch
+                        print('saving best models...')
+                        save_model(model=layout_evaluator, epoch=epoch, model_dir=self.model_dir,
+                                model_name='evaluator', best=True)
             # ================ #
             #      Saving      #
             # ================ #
@@ -281,8 +279,10 @@ class LayoutTrainer(object):
             plt.savefig(os.path.join(self.output_dir, "loss.png"))
             plt.close(0)
             # loss
-            with open(os.path.join(self.log_dir, 'log_loss.txt'), 'a') as f:
+            with open(os.path.join(self.log_dir, 'Train_log_loss.txt'), 'a') as f:
                 f.write('{},{}\n'.format(epoch, training_error[-1]))
+            with open(os.path.join(self.log_dir, 'Test_log_loss.txt'), 'a') as f:
+                f.write('{},{}\n'.format(epoch, testing_error[-1]))
             # print
             end_t = time.time()
             self.logger.info(

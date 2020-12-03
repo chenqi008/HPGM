@@ -569,6 +569,23 @@ class ConversionLayout(object):
         layout: [num, (x,y,direction)]
         return:
         '''
+        def judge_area(room_num, room_hull, init_contour):
+            """
+            function:calculate the score_area of the room
+            """
+            def calculate_surface_area(polygon):
+                # use the image to calculate the area
+                im = np.zeros((256, 256))
+                polygon_mask = cv.fillPoly(im, [np.array(polygon, dtype=np.int)], 255)
+                area = np.sum(np.greater(polygon_mask, 0))
+                return area
+            k_min, area_limitation = 1. / (2* room_num), 50
+            area = float(calculate_surface_area(room_hull))
+            total_area = float(calculate_surface_area(init_contour))
+            k = total_area / area
+            # print("area_ratio: ", k)
+            if k > area_limitation:
+                return False
         room_num = len(layout)
         room_coords = []
         contour_coord = None
@@ -588,6 +605,10 @@ class ConversionLayout(object):
             # make the rest_contour be in clockwise
             contour_coord, _ = self.get_contour_layout(rest_contour, first=False, contour=True)
         room_coords.append(contour_coord)
+        for i in range(len(room_coords)):
+            k = judge_area(len(room_coords), room_coords[i], layout_init_contour*255)
+            if k == False:
+                return -1
         return room_coords
 
 

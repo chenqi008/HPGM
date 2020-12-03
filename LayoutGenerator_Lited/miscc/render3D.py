@@ -217,11 +217,12 @@ def render_3d_contour(init_hull, first_hull, Next_hull, save_mesh_path):
                       [165, 42, 42], [139, 134, 130], [205, 198, 115], [139, 58, 58],
                       [255, 255, 255], [0, 0, 0], [30, 144, 255], [135, 206, 235], [255, 255, 0]])
     layouts = open3d.geometry.TriangleMesh()
-    layout_layer = 3
+
     point_3d_hulls = []
     point_3d_hulls.append(first_hull)
-    point_3d_hulls.append(Next_hull[0]) # 1
-    point_3d_hulls.append(Next_hull[1])
+    for i in range(len(Next_hull)):
+        point_3d_hulls.append(Next_hull[i]) # 1
+    layout_layer = len(point_3d_hulls)
     for l in range(layout_layer):
         bottom_height = height_scale * l
         height = height_scale * (l+1)

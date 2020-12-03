@@ -1,6 +1,6 @@
 DATASET_NAME: 'layout'
 CONFIG_NAME: 'MultiLayer'
-DATA_DIR: '/home/zhoujiaqiu/Code/GAN/MultiLayerDataset'
+DATA_DIR: '/home/datasets/MultiLayerDataset'
 GPU: '0'
 DATASET: 'eval'
 
@@ -24,5 +24,5 @@ EVALUATOR:
 
 EVAL:
     TEST_INDEX: 1
-    OUTPUT_DIR: '/home/zhoujiaqiu/Code/GAN/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_MultiLayer_2020_09_13_12_12_20'
+    OUTPUT_DIR: '/home/zhoujiaqiu/project/HPGM/LayoutGenerator_Lited/output_dir/EVALUATOR_layout_Model'
     MODEL_EVALUATOR: 'Model/evaluator_best.pth'
